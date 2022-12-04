@@ -4,11 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>All Items</h1>
 
 
 <p>
-    <a asp-action="create">Create New</a>
+    <a asp-action="create">Create New</a> &nbsp;
+    <a asp-action="Edit">Edit</a> &nbsp;
+    <a asp-action="Delete">Delete</a>
 </p>
 <table class="table">
     <thead>
@@ -44,9 +46,8 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+             <a asp-controller="Items" asp-action="Edit" asp-route-ItemID="@item.ItemID" asp-route-name="@item.Name" asp-route-Quantity="@item.Quantity" asp-route-Price="@item.Price">Edit</a>&nbsp;|&nbsp;
+             <a asp-controller="Items" asp-action="Delete" asp-route-ItemID="@item.ItemID">Delete</a>
             </td>
         </tr>
 }

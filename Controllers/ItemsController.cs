@@ -49,7 +49,7 @@ namespace Project_WebApp.Controllers
 
                 var json = new
                 {
-                    item.ItemID,
+                    
                     item.Name,
                     item.Price,
                     item.Quantity
@@ -61,6 +61,55 @@ namespace Project_WebApp.Controllers
                 return RedirectToAction("Index");   
             }
         }
+
+        public IActionResult Edit(string ItemID, string name, int Quantity, int Price)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Items item)
+        {
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7099/api/Items/");
+
+            var json = new
+            {
+                item.ItemID,
+                item.Name,
+                item.Price,
+                item.Quantity
+            };
+
+
+            var jsonItem = JsonConvert.SerializeObject(json);
+
+            var data = new StringContent(jsonItem, Encoding.UTF8, "application/json");
+
+            var uri = Path.Combine("UpdateItem",item.ItemID);
+
+            var response = await client.PutAsync(uri, data);
+            response.EnsureSuccessStatusCode();
+
+            return RedirectToAction("Index");
+        }
+      
+        public async Task<IActionResult> Delete(string ItemID)
+        {
+            
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7099/api/Items/");
+
+            var uri = Path.Combine("DeleteItem", ItemID);
+            
+            var response = await client.DeleteAsync(uri);
+            Console.WriteLine(uri);
+            response.EnsureSuccessStatusCode();
+
+            return RedirectToAction("Index");
+        }
+
 
     }
 

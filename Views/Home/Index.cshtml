@@ -1,7 +1,38 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "HomePage";
 }
 
 <div class="text-center">
     <h1 class="display-4"> <i class="bi bi-suit-heart-fill"></i> &nbsp Welcome To Cafe Tatheer &nbsp<i class="bi bi-suit-heart-fill"></i></h1>
+</div>
+
+
+<div>
+    <form action="Receipt/GetDailyEarnings" method="get">
+    <label>Daily Earnings: </label>
+    <input type="date" name="Date" style= "width:181px" />
+    <input type="submit" value="Submit" />
+</form>
+</div>
+
+<div>
+<form action="Receipt/GetWeeklyEarnings" method="get">
+        <label>Weekly Earnings :</label>
+    <input type="number" name="Date" />
+    <input type="submit" value="Submit" />
+</form>
+</div>
+<div>
+<form action="Receipt/GetMonthlyEarnings" method="get">
+        <label>Monthly Earnings: </label>
+    <input type="number" name="Date" />
+    <input type="submit" value="Submit" />
+</form>
+</div>
+<div>
+<form action="Receipt/GetYearlyEarnings" method="get">
+        <label>Yearly Earnings  :  </label>
+    <input type="number" name="Date" />
+    <input type="submit" value="Submit" />
+</form>
 </div>

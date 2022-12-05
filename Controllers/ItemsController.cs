@@ -20,8 +20,8 @@ namespace Project_WebApp.Controllers
                 HttpResponseMessage response = await client.GetAsync("AllItems");
                 if (response.IsSuccessStatusCode)
                 {
-                  List<Items> department = await response.Content.ReadAsAsync<List<Items>>();
-                  return View(department);
+                  List<Items> items = await response.Content.ReadAsAsync<List<Items>>();
+                  return View(items);
                 }
                 else
                 {
@@ -86,12 +86,12 @@ namespace Project_WebApp.Controllers
             var jsonItem = JsonConvert.SerializeObject(json);
 
             var data = new StringContent(jsonItem, Encoding.UTF8, "application/json");
-
-            var uri = Path.Combine("UpdateItem",item.ItemID);
-
-            var response = await client.PutAsync(uri, data);
-            response.EnsureSuccessStatusCode();
-
+            if (item.ItemID != null)
+            {
+                var uri = Path.Combine("UpdateItem", item.ItemID);
+                var response = await client.PutAsync(uri, data);
+                response.EnsureSuccessStatusCode();
+            }
             return RedirectToAction("Index");
         }
       
@@ -108,6 +108,34 @@ namespace Project_WebApp.Controllers
             response.EnsureSuccessStatusCode();
 
             return RedirectToAction("Index");
+        }
+
+       [HttpGet]
+        public async Task<IActionResult> GetItemByID(string ItemID)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7099/api/Items/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //GET Method
+                if (ItemID != null)
+                {
+                    var uri = Path.Combine("GetItemById", ItemID);
+                    HttpResponseMessage response = await client.GetAsync(uri);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Items item = await response.Content.ReadAsAsync<Items>();
+                        return View(item);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Internal server Error");
+                    }
+                }
+            }
+            return View(null);
+           // return RedirectToAction("Index");
         }
 
 
